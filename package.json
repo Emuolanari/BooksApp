@@ -1,0 +1,25 @@
+{
+  "name": "booksapp",
+  "version": "1.0.0",
+  "description": "Node js books app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Emuolanari/BooksApp.git"
+  },
+  "author": "Emuolanari Ogulu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Emuolanari/BooksApp/issues"
+  },
+  "homepage": "https://github.com/Emuolanari/BooksApp#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15"
+  }
+}
