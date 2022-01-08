@@ -12,11 +12,17 @@ exports.getAllBooks = async (req, res, next) => {
 }
 
 exports.addBook = async (req, res, next) => {
-    const newBook = await Book.create(req.body);
-    res.status(201).json({
-        status: 'success',
-        data: {
-            newBook
-        }
-    })
+    try {
+        const newBook = await Book.create(req.body);
+        res.status(201).json({
+            status: 'success',
+            data: {
+                newBook
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            err
+        })
+    }
 }

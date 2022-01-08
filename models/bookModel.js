@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const bookSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: [true, 'book title is required']
+        required: [true, 'book title is required'],
+        trim: true,
+        unique: true
     },
     genre: String,
     description: {
