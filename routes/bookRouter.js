@@ -7,4 +7,10 @@ router.route('/')
     .get(bookController.getAllBooks)
     .post(bookController.addBook);
 
+
+router.route('/:id')
+    .get(bookController.getBook)
+    .delete(bookController.deleteBook)
+
+
 module.exports = router;
