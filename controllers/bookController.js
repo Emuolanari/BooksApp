@@ -43,15 +43,22 @@ exports.addBook = async (req, res, next) => {
 exports.deleteBook = async (req, res, next) => {
     await Book.findByIdAndDelete(req.params.id);
     res.status(204).json({
-        status: 'successs',
+        status: 'success'
     })
 }
 
 exports.updateBook = async (req, res, next) => {
-    const book = Book.findByIdAndUpdate(req.params.id, req.body, {
+    const book = await Book.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true
     })
 
     //remember to handle errors
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            book
+        }
+    })
 }

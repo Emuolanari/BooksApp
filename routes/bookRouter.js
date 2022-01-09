@@ -11,6 +11,7 @@ router.route('/')
 router.route('/:id')
     .get(bookController.getBook)
     .delete(bookController.deleteBook)
+    .patch(bookController.updateBook)
 
 
 module.exports = router;
