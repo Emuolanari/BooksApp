@@ -1,4 +1,5 @@
 const Book = require('./../models/bookModel');
+const catchAsync = require('./../utils/catchAsync');
 
 exports.getAllBooks = async (req, res, next) => {
     const books = await Book.find({});
@@ -11,8 +12,7 @@ exports.getAllBooks = async (req, res, next) => {
     })
 }
 
-exports.getBook = async (req, res, next) => {
-    //console.log(req.params);
+exports.getBook = catchAsync(async (req, res, next) => {
     const book = await Book.findById(req.params.id);
     res.status(200).json({
         status: 'success',
@@ -20,40 +20,32 @@ exports.getBook = async (req, res, next) => {
             book
         }
     })
+});
 
-    //remember to handle errors
-}
+exports.addBook = catchAsync(async (req, res, next) => {
+    const newBook = await Book.create(req.body);
+    res.status(201).json({
+        status: 'success',
+        data: {
+            newBook
+        }
+    })
 
-exports.addBook = async (req, res, next) => {
-    try {
-        const newBook = await Book.create(req.body);
-        res.status(201).json({
-            status: 'success',
-            data: {
-                newBook
-            }
-        })
-    } catch (err) {
-        res.status(500).json({
-            err
-        })
-    }
-}
+})
 
-exports.deleteBook = async (req, res, next) => {
+exports.deleteBook = catchAsync(async (req, res, next) => {
     await Book.findByIdAndDelete(req.params.id);
     res.status(204).json({
         status: 'success'
     })
-}
+    res.status
+});
 
-exports.updateBook = async (req, res, next) => {
+exports.updateBook = catchAsync(async (req, res, next) => {
     const book = await Book.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true
     })
-
-    //remember to handle errors
 
     res.status(200).json({
         status: 'success',
@@ -61,4 +53,4 @@ exports.updateBook = async (req, res, next) => {
             book
         }
     })
-}
+})
