@@ -1,7 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
+
+const AppError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/errorController');
 const bookRouter = require('./routes/bookRouter');
-const AppError = require('./utils/AppError');
 
 const app = express();
 
@@ -13,8 +15,10 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/api/v1/books', bookRouter);
 
-app.use('*', (req, res, next) => {
-    next(new AppError(`${req.originalUrl} not found or defined`, 404));
-})
+app.all('*', (req, res, next) => {
+    next(new AppError(`${req.originalUrl} not found`, 404));
+});
+
+app.use(globalErrorHandler);
 
 module.exports = app;

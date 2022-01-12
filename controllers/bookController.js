@@ -1,7 +1,8 @@
 const Book = require('./../models/bookModel');
 const catchAsync = require('./../utils/catchAsync');
+const AppError = require(`./../utils/appError`);
 
-exports.getAllBooks = async (req, res, next) => {
+exports.getAllBooks = catchAsync(async (req, res, next) => {
     const books = await Book.find({});
     res.status(200).json({
         status: 'success',
@@ -10,10 +11,14 @@ exports.getAllBooks = async (req, res, next) => {
             books
         }
     })
-}
+});
 
 exports.getBook = catchAsync(async (req, res, next) => {
     const book = await Book.findById(req.params.id);
+
+    if (!book) {
+        return next(new AppError(404, 'No book found with that id'));
+    }
     res.status(200).json({
         status: 'success',
         data: {
@@ -35,6 +40,10 @@ exports.addBook = catchAsync(async (req, res, next) => {
 
 exports.deleteBook = catchAsync(async (req, res, next) => {
     await Book.findByIdAndDelete(req.params.id);
+
+    if (!book) {
+        return next(new AppError(404, 'No book found with that id'));
+    }
     res.status(204).json({
         status: 'success'
     })
@@ -45,7 +54,11 @@ exports.updateBook = catchAsync(async (req, res, next) => {
     const book = await Book.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true
-    })
+    });
+
+    if (!book) {
+        return next(new AppError(404, 'No book found with that id'));
+    }
 
     res.status(200).json({
         status: 'success',
