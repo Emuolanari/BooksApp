@@ -15,6 +15,10 @@ const bookSchema = new mongoose.Schema({
     author: {
         type: String,
         required: [true, 'authors\'s name is required']
+    },
+    isbn: {
+        type: Number,
+        required: [true, 'isbn number is required']
     }
 })
 
