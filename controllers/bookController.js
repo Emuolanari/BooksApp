@@ -39,7 +39,7 @@ exports.addBook = catchAsync(async (req, res, next) => {
 })
 
 exports.deleteBook = catchAsync(async (req, res, next) => {
-    await Book.findByIdAndDelete(req.params.id);
+    const book = await Book.findByIdAndDelete(req.params.id);
 
     if (!book) {
         return next(new AppError(404, 'No book found with that id'));
