@@ -5,6 +5,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const bookRouter = require('./routes/bookRouter');
+const userRouter = require('./routes/userRouter');
 
 const app = express();
 
@@ -25,6 +26,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use('/api/v1/books', bookRouter);
+app.user('/api/v1/users', userRouter);
 
 app.all('*', (req, res, next) => {
     next(new AppError(`${req.originalUrl} not found`, 404));
