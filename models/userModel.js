@@ -13,22 +13,23 @@ const userSchema = mongoose.Schema({
     },
     username: {
         type: String,
-        required: [true, 'Username is required']
+        required: [true, 'Username is required'],
+        unique: true
     },
     password: {
         type: String,
         required: [true, 'Password is required'],
-        minlength: 8,
+        minlength: 6,
         select: false
     },
     passwordConfirm: {
         type: String,
         required: [true, 'Please confirm your password'],
         validate: {
-            validator: (el) => {
+            validator: function (el) {
                 return el === this.password
             },
-            maessage: 'Passwords do not match'
+            message: 'Passwords do not match'
         }
     },
 
@@ -37,14 +38,18 @@ const userSchema = mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user'
     }
-})
+});
 
 userSchema.pre('save', async function (next) {
-    if (!this.isModified(password)) return next()
-    this.password = bcrypt.hash(this.password, 12);
+    console.log(this.password)
+    if (!this.isModified('password')) return next();
+    this.password = await bcrypt.hash(this.password, 12);
+    console.log(this.password)
     this.passwordConfirm = undefined;
     next();
 })
+
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
