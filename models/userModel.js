@@ -30,6 +30,12 @@ const userSchema = mongoose.Schema({
             },
             maessage: 'Passwords do not match'
         }
+    },
+
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
     }
 })
 
@@ -39,6 +45,6 @@ userSchema.pre('save', async function (next) {
     this.passwordConfirm = undefined;
     next();
 })
-const User = mongoose.Model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

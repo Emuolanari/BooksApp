@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use('/api/v1/books', bookRouter);
-app.user('/api/v1/users', userRouter);
+app.use('/api/v1/users', userRouter);
 
 app.all('*', (req, res, next) => {
     next(new AppError(`${req.originalUrl} not found`, 404));
