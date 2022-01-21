@@ -4,6 +4,8 @@ const handleCastErrorDB = err => {
     const message = `Invalid ${err.path}: ${err.value}.`
     return new AppError(message, 400);
 }
+
+const handleJWTError = () => new AppError('Invalid token. Please login again', 401);
 const sendDevErrors = (err, res) => {
     res.status(err.statusCode).json({
         status: err.status,
@@ -39,6 +41,7 @@ module.exports = (err, req, res, next) => {
     else if (process.env.NODE_ENV === 'production') {
         let error = { ...err };
         if (error.kind === "ObjectId") error = handleCastErrorDB(error);
+        if (error.name === "JsonWebTokenError") error = handleJWTError(error);
         sendProdErrors(error, res);
     }
 
